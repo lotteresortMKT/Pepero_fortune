@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fffaf5">
+  <title>빼빼로 포춘 · 관리자 통계</title>
+  <style>
+    :root{--page:#fffaf5;--paper:#fff;--ink:#302c2c;--body:#686162;--line:#eaded9;--red:#e30014;--red-dark:#b80010;--soft:#f7ebe7;--display:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+    *{box-sizing:border-box}html{background:var(--page)}body{margin:0;background:var(--page);color:var(--ink);font-family:var(--display);-webkit-font-smoothing:antialiased}.wrap{width:min(100%,900px);margin:0 auto;padding:28px 18px 48px}.eyebrow{margin:0 auto 10px;color:#9a3941;text-align:center;font-size:11px;letter-spacing:.18em}.eyebrow::before,.eyebrow::after{content:"";display:inline-block;width:46px;height:1px;background:#e6cfc9;vertical-align:middle;margin:0 12px}.brand{font-size:14px;font-weight:700;letter-spacing:.12em;text-align:center;color:var(--red)}h1{margin:12px 0 8px;text-align:center;font-size:clamp(28px,6vw,46px);letter-spacing:-.07em}h1 span{color:var(--red)}.lead{margin:0 auto 26px;max-width:580px;text-align:center;color:var(--body);line-height:1.7;font-size:14px}.panel{border:1px solid var(--line);border-radius:20px;background:var(--paper);box-shadow:0 8px 24px rgba(66,35,40,.06);padding:20px}.auth{display:grid;grid-template-columns:1fr auto;gap:10px;max-width:520px;margin:0 auto 22px}.auth input{width:100%;min-height:48px;border:1px solid #d9c9c5;border-radius:10px;padding:0 14px;color:var(--ink);font-size:15px;background:#fff}.auth button,.refresh{border:0;border-radius:10px;background:var(--red);color:#fff;font-weight:700;padding:0 18px;cursor:pointer}.auth button:hover,.refresh:hover{background:var(--red-dark)}.status{min-height:21px;margin:0 0 18px;text-align:center;color:var(--body);font-size:13px}.status.error{color:var(--red)}.status.ok{color:#2e7651}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.metric{border:1px solid var(--line);border-radius:14px;padding:18px 16px;background:linear-gradient(180deg,#fff 0%,#fffaf8 100%)}.metric-label{color:var(--body);font-size:13px}.metric-value{margin-top:8px;color:var(--red);font-size:clamp(28px,7vw,44px);font-weight:800;letter-spacing:-.05em}.metric-note{margin-top:4px;color:#9a8e8d;font-size:11px}.subhead{display:flex;align-items:center;justify-content:space-between;margin:28px 0 10px}.subhead h2{margin:0;font-size:18px;letter-spacing:-.05em}.refresh{min-height:36px;padding:0 13px;font-size:12px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}th{background:var(--soft);color:#6d5557;font-size:12px}tr:last-child td{border-bottom:0}.info{margin-top:18px;padding:14px 15px;border-radius:12px;background:var(--soft);color:#765f61;font-size:12px;line-height:1.7}.footer{margin-top:24px;text-align:center;color:#9a8e8d;font-size:11px}.footer a{color:var(--red);text-decoration:none}@media (max-width:520px){.wrap{padding:24px 14px 36px}.auth{grid-template-columns:1fr}.auth button{min-height:46px}.grid{grid-template-columns:1fr 1fr}.panel{padding:16px}.eyebrow::before,.eyebrow::after{width:24px;margin:0 7px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="eyebrow">SWEET LUCKY MOMENT</p>
+    <p class="brand">PEPERO FORTUNE · ADMIN</p>
+    <h1>이벤트 <span>통계</span> 확인</h1>
+    <p class="lead">Apps Script에 기록된 빼빼로 운세 이벤트 이용 현황을 확인하는 페이지입니다.</p>
+    <section class="panel" aria-labelledby="stats-title">
+      <h2 id="stats-title" class="sr-only">통계 조회</h2>
+      <form class="auth" id="authForm">
+        <label class="sr-only" for="adminKey">관리자 키</label>
+        <input id="adminKey" type="password" autocomplete="current-password" placeholder="관리자 키를 입력하세요" required>
+        <button type="submit">통계 불러오기</button>
+      </form>
+      <p class="status" id="status" role="status">관리자 키를 입력하면 통계를 불러옵니다.</p>
+      <div class="grid" aria-live="polite">
+        <article class="metric"><p class="metric-label">페이지 조회</p><p class="metric-value" id="pageViews">—</p><p class="metric-note">page_view 기록</p></article>
+        <article class="metric"><p class="metric-label">순 방문자</p><p class="metric-value" id="uniqueVisitors">—</p><p class="metric-note">visitor_id 기준</p></article>
+        <article class="metric"><p class="metric-label">리워즈 가입 클릭</p><p class="metric-value" id="rewardsClicks">—</p><p class="metric-note">rewards_click 기록</p></article>
+        <article class="metric"><p class="metric-label">공유 클릭</p><p class="metric-value" id="shares">—</p><p class="metric-note">share 기록</p></article>
+        <article class="metric"><p class="metric-label">이미지 저장 클릭</p><p class="metric-value" id="imageSaves">—</p><p class="metric-note">image_save 기록</p></article>
+      </div>
+      <div class="subhead"><h2>조회 항목</h2><button class="refresh" id="refresh" type="button" hidden>새로고침</button></div>
+      <div class="table-wrap">
+        <table><thead><tr><th>항목</th><th>Apps Script 이벤트명</th><th>집계 기준</th></tr></thead><tbody>
+          <tr><td>페이지 접속</td><td>page_view</td><td>전체 기록 / 순 방문자</td></tr>
+          <tr><td>리워즈 가입 버튼</td><td>rewards_click</td><td>클릭 횟수</td></tr>
+          <tr><td>공유하기</td><td>share</td><td>클릭 횟수</td></tr>
+          <tr><td>이미지 저장하기</td><td>image_save</td><td>클릭 횟수</td></tr>
+        </tbody></table>
+      </div>
+      <p class="info">이 페이지는 통계를 저장하지 않고 Apps Script에 저장된 값을 조회합니다. 관리자 키는 이 브라우저에 저장하지 않습니다.</p>
+    </section>
+    <p class="footer"><a href="./index.html">이벤트 페이지로 돌아가기</a></p>
+  </main>
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwQhhLEm76A-qSeF_-s4_3mvZYFGaNz7lzHgt-i7XWKrePGnS9gpdpSsT-TY_bnI1kotw/exec';
+    const $ = id => document.getElementById(id);
+    let currentKey = '';
+    function setStatus(text, kind=''){ const el=$('status'); el.textContent=text; el.className='status '+kind; }
+    function setMetric(id,value){ $(id).textContent = Number.isFinite(Number(value)) ? Number(value).toLocaleString('ko-KR') : '—'; }
+    async function loadStats(){
+      if (!currentKey) return;
+      setStatus('통계를 불러오는 중입니다…');
+      $('refresh').disabled = true;
+      try {
+        const response = await fetch(API_URL + '?key=' + encodeURIComponent(currentKey), { cache:'no-store' });
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.error || '조회에 실패했습니다.');
+        setMetric('pageViews', data.page_views); setMetric('uniqueVisitors', data.unique_visitors); setMetric('rewardsClicks', data.rewards_clicks); setMetric('shares', data.shares); setMetric('imageSaves', data.image_saves);
+        setStatus('최신 통계를 불러왔습니다.', 'ok'); $('refresh').hidden = false;
+      } catch (error) { setStatus(error.message || '통계를 불러오지 못했습니다.', 'error'); }
+      $('refresh').disabled = false;
+    }
+    $('authForm').addEventListener('submit', event => { event.preventDefault(); currentKey = $('adminKey').value.trim(); loadStats(); });
+    $('refresh').addEventListener('click', loadStats);
+  </script>
+</body>
+</html>
